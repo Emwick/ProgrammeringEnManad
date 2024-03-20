@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="phaser.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(1010, 900, Phaser.AUTO, 'Fallen leaves tell a story', { boot: boot, preload: preload, create: create, update: update, render : render });
+
+
+        function boot () {
+            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        }
+
+        function preload () {
+
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.setMinMax (900, 900, 900, 1100);
+
+            game.load.image('Tree', 'assets/images/Tree.png');
+            game.load.image('Background', 'assets/images/Background.png');
+            game.load.audio('music', 'assets/audio/Musik.mp3');
+            game.load.image('Leaf', 'assets/images/Leaf.png');
+        }
+
+        var Leaf;
+
+        function create() {
+
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+            
+            this.Background = this.add.sprite(0, 0, 'Background');
+           
+            
+            Tree = game.add.sprite(game.world.centerX, game.world.centerY, 'Tree');
+            Tree.anchor.setTo(0.5, 0.5);
+            //själva trädet
+            var playButton = game.add.text(game.world.centerX, game.world.centerY, 'Ó Elden', { font: '24px Arial' , fill: '#ffffff' })
+            playButton.inputEnabled = true;
+            playButton.anchor.setTo(0.5 , 0.5);
+            playButton.events.onInputDown.add(playAudio, this);
+            //music kod ovanför
+
+            Leaf = game.add.physicsGroup(Phaser.Physics.ARCADE);
+
+            game.physics.arcade.gravity.y = 200;
+            Leaf1 = game.add.sprite(250, 0, 'Leaf');
+            Leaf2 = game.add.sprite(-200, 70, 'Leaf');
+            Leaf3 = game.add.sprite(-350, -130, 'Leaf');
+            Leaf4 = game.add.sprite(400, -70, 'Leaf');
+
+            game.physics.enable( [ Leaf1, Leaf2, Leaf3, Leaf4 ], Phaser.Physics.ARCADE);
+
+            
+            Leaf.body.bounce.y = 0.1;
+         
+            game.physics.arcade.enable(this.Leaf);
+            this.Leaf.body.gravity.y = 500;
+            game.physics.arcade.enable(this.Leaf3);
+            this.Leaf3.body.gravity.y = 1200;
+            var audio = game.add.audio('music');
+
+
+        }
+
+        function update(){
+            
+
+            
+        }
+
+        //baa ti musiken
+        function playAudio(){
+            var audio = game.add.audio('music');
+            audio.play();
+          
+        }
+
+        function render() {
+            game.debug.text('world gravity', Leaf.x - 32, 64);
+}
+
+    
+
+    };
+
+    
+
+    </script>
+
+    </body>
+</html>
